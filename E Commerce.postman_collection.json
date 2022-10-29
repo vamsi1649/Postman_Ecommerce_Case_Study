@@ -1,0 +1,654 @@
+{
+	"info": {
+		"_postman_id": "0fd37067-04c2-4e1a-ba63-04e625991897",
+		"name": "E Commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23215253"
+	},
+	"item": [
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "USER SIGNUP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"{{email}}\",\r\n\t\"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/user/signup",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER LOGIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.environment.set(\"vamsi\", jsonData.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"{{email}}\",\r\n\t\"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/user/login",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL USERS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const num = jsonData.count\r",
+									"console.log (num)\r",
+									"\r",
+									"for(var i=0;i<num;i++)\r",
+									"{\r",
+									"    if(jsonData.users[i].email==\"ironman@gmail.com\")\r",
+									"    {\r",
+									"        var userid = jsonData.users[i]._id;\r",
+									"        console.log(userid)\r",
+									"        pm.environment.set(\"userid\", userid);\r",
+									"    \r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vamsi}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/user",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE USER BY ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vamsi}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/user/{{userid}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"{{userid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PRODUCTS",
+			"item": [
+				{
+					"name": "GET ALL PRODUCTS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const count = jsonData.count\r",
+									"console.log (count)\r",
+									"\r",
+									"for(var i=0;i<count;i++)\r",
+									"{\r",
+									"    if(jsonData.products[i].name==\"Axe\")\r",
+									"    {\r",
+									"        var productid = jsonData.products[i]._id;\r",
+									"        console.log(productid)\r",
+									"        pm.environment.set(\"productid\", productid);\r",
+									"    \r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vamsi}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/products",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE PRODUCT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vamsi}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"{{Name}}\",\r\n\t\"price\": {{Price}}\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/products",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PRODUCT BY ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzE5YjlkODJlYzdmYTAwMTcyM2E5NGUiLCJpYXQiOjE2NjI2MzE2OTIsImV4cCI6MTY2MjcxODA5Mn0.ODlwIt-ILlC89p2Igt6XhN7zsl9Iia_zv862-v-8sms",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/products/62283935d7cea500172f11b0",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"products",
+								"62283935d7cea500172f11b0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PRODUCT BY ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzE5YjlkODJlYzdmYTAwMTcyM2E5NGUiLCJpYXQiOjE2NjI2MzE2OTIsImV4cCI6MTY2MjcxODA5Mn0.ODlwIt-ILlC89p2Igt6XhN7zsl9Iia_zv862-v-8sms",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"jing\",\r\n\t\"price\": 45\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/products/62283935d7cea500172f11b0",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"products",
+								"62283935d7cea500172f11b0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE PRODUCT BY ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vamsi}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/products/{{productid}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"products",
+								"{{productid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ORDERS",
+			"item": [
+				{
+					"name": "GET ALL ORDERS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const getallorders=pm.response.json();\r",
+									"const total=getallorders.count\r",
+									"let orderid,name;\r",
+									"console.log(total);\r",
+									"for(let i=0;i<total;i++)\r",
+									"{\r",
+									"    if(getallorders.orders[i].product!=null)\r",
+									"    {\r",
+									"         name=getallorders.orders[i].product.name;\r",
+									"         //console.log(name);\r",
+									"         if(name==\"powerbanks\")\r",
+									"         {\r",
+									"             //console.log(name);\r",
+									"             orderid=getallorders.orders[i]._id;\r",
+									"             console.log(orderid);\r",
+									"             pm.environment.set(\"orderid\", orderid);\r",
+									"         }\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vamsi}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/orders",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE ORDER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vamsi}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"product\": \"{{product}}\",\r\n\t\"quantity\": {{quantity}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ecommerceservice.herokuapp.com/orders",
+							"protocol": "https",
+							"host": [
+								"ecommerceservice",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ORDER ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzE4NjZmMjg5OWUyZTAwMTc4NzIxMDgiLCJpYXQiOjE2NjI1NDQ0OTgsImV4cCI6MTY2MjYzMDg5OH0.Ahdy50Rbf6G8P-OyNm6Rnwzp---8npUdb2gkRY8wvXw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ecommerceservice.herokuapp.com/orders/631877b2899e2e001787218c",
+							"protocol": "https",
+							"host": [
+								"ecommerceservice",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"orders",
+								"631877b2899e2e001787218c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE ORDER BY ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzE4NjZmMjg5OWUyZTAwMTc4NzIxMDgiLCJpYXQiOjE2NjI1NDQ0OTgsImV4cCI6MTY2MjYzMDg5OH0.Ahdy50Rbf6G8P-OyNm6Rnwzp---8npUdb2gkRY8wvXw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"product\": \"62285c0fd7cea500172f1333\",\r\n\t\"quantity\":10\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ecommerceservice.herokuapp.com/orders/62285c0fd7cea500172f1333",
+							"protocol": "https",
+							"host": [
+								"ecommerceservice",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"orders",
+								"62285c0fd7cea500172f1333"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ORDER BY ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vamsi}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://ecommerceservice.herokuapp.com/orders/{{orderid}}",
+							"protocol": "https",
+							"host": [
+								"ecommerceservice",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"orders",
+								"{{orderid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
